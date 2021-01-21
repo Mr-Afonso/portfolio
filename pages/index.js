@@ -1,11 +1,5 @@
-import NavBar from '@/components/shared/NavBar'
-import Hero from '@/components/shared/Hero'
-
 const Home = () => (
-  <div className="portfolio-app">
-    <NavBar />
-    <Hero />
-    <div className="container">
+  <>
       {/* HOME PAGE STARTS */}
       <section className="section-title">
         <div className="px-2">
@@ -101,7 +95,6 @@ const Home = () => (
       </section>
       <a href="" className="btn btn-main bg-blue ttu">See More Posts</a>
       {/* HOME PAGE ENDS */}
-    </div>
 
     {/* REPLIER STARTS */}
     {/* <div className='reply-controls is-open'> */}
@@ -150,7 +143,7 @@ const Home = () => (
       </div>
     </footer>
     {/* FOOTER ENDS */}
-  </div>
+  </>
 )
 
 export default Home
