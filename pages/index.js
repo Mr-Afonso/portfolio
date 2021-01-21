@@ -1,5 +1,5 @@
-import NavBar from '../components/shared/NavBar'
-import Hero from '../components/shared/Hero'
+import NavBar from '@/components/shared/NavBar'
+import Hero from '@/components/shared/Hero'
 
 const Home = () => (
   <div className="portfolio-app">
