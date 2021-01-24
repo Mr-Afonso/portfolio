@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "bootstrap": "^4.4.1",
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",
