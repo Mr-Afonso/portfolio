@@ -11,28 +11,38 @@ const handle = app.getRequestHandler()
 const data = {
   portfolios: [
     {
-      _id: 'csc3234vsd',
-      title: 'Job in USA',
-      content: 'It was a very nice experience',
-      jobTitle: 'Chef',
-      daysOfExperience: 100,
-      isCurrentEmployed: false
+      _id: "sad87da79",
+      title: 'Job in Netcentric',
+      company: 'Netcentric',
+      companyWebsite: 'www.google.com',
+      location: 'Spain, Barcelona',
+      jobTitle: 'Engineer',
+      description: 'Doing something, programing....',
+      startDate: '01/01/2014',
+      endDate: '01/01/2016'
     },
     {
-      _id: 'zxczxc35',
-      title: 'Job in Portugal',
-      content: 'It was a very good experience',
-      jobTitle: 'Developer',
-      isCurrentEmployed: true
+      _id: "da789ad1",
+      title: 'Job in Siemens',
+      company: 'Siemens',
+      companyWebsite: 'www.google.com',
+      location: 'Slovakia, Kosice',
+      jobTitle: 'Software Engineer',
+      description: 'Responsoble for parsing framework for JSON medical data.',
+      startDate: '01/01/2011',
+      endDate: '01/01/2013'
     },
     {
-      _id: 'dfgdf566',
-      title: 'Job in UK',
-      content: 'It was a very solid experience',
-      jobTitle: 'Manager',
-      daysOfExperience: 30,
-      isCurrentEmployed: false
-    },
+      _id: "sadcxv9",
+      title: 'Work in USA',
+      company: 'WhoKnows',
+      companyWebsite: 'www.google.com',
+      location: 'USA, Montana',
+      jobTitle: 'Housekeeping',
+      description: 'So much responsibility....Overloaaaaaad',
+      startDate: '01/01/2010',
+      endDate: '01/01/2011'
+    }
   ]
 }
 
@@ -42,12 +52,15 @@ app.prepare().then(() => {
   // construct a schema using GraphQL shema language
   const schema = buildSchema(`
     type Portfolio {
-      _id: ID!
+      _id: ID,
       title: String
-      content: String
+      company: String
+      companyWebsite: String
+      location: String,
       jobTitle: String
-      daysOfExperience: Int
-      isCurrentEmployed: Boolean
+      description: String
+      startDate: String
+      endDate: String
     }
 
     type Query {
