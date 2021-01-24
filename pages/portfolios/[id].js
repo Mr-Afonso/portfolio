@@ -3,8 +3,8 @@ import axios from 'axios'
 
 const fetchPortfolioById = (id) => {
   const query = `
-    query Portfolio {
-      portfolio(id: "${id}") {
+    query Portfolio($id: ID) {
+      portfolio(id: $id) {
         _id
         title
         company
@@ -16,8 +16,9 @@ const fetchPortfolioById = (id) => {
         endDate
       }
     }`
+  const variables = { id }
 
-  return axios.post('http://localhost:3333/graphql', { query: query })
+  return axios.post('http://localhost:3333/graphql', { query, variables })
     .then(({ data: graph }) => graph.data)
     .then(data => data.portfolio)
 }
