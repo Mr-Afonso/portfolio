@@ -1,6 +1,34 @@
+import { useState } from 'react'
 import axios from 'axios'
 import PortfolioCard from '@/components/portfolios/PortfolioCard'
 import Link from 'next/link'
+
+const graphCreatePortfolio = () => {
+  const query = `
+    mutation CreatePortfolio {
+      createPortfolio(input: {
+        title: "Just a Test"
+        company: "Just a Test"
+        companyWebsite: "Just a Test"
+        location: "Just a Test"
+        jobTitle: "Just a Test"
+        description: "Just a Test"
+        startDate: "12/12/2012"
+        endDate: "12/12/2012"
+      }) {
+        _id
+        title
+        description
+        jobTitle
+        startDate
+        endDate
+      }
+    }`
+
+  return axios.post('http://localhost:3333/graphql', { query: query })
+    .then(({ data: graph }) => graph.data)
+    .then(data => data.createPortfolio)
+}
 
 const fetchPortfolios = () => {
   const query = `
@@ -23,7 +51,15 @@ const fetchPortfolios = () => {
     .then(data => data.portfolios)
 }
 
-const Portfolios = ({ portfolios }) => {
+const Portfolios = ({ data }) => {
+  const [portfolios, setPortfolios] = useState(data.portfolios)
+
+  const createPortfolio = async () => {
+   const newPortfolio =  await graphCreatePortfolio()
+   const newPortfolios = [...portfolios, newPortfolio]
+   setPortfolios(newPortfolios)
+  }
+
   return (
     <>
       <section className="section-title">
@@ -32,6 +68,9 @@ const Portfolios = ({ portfolios }) => {
             <h1>Portfolios</h1>
           </div>
         </div>
+        <button className="btn btn-primary" onClick={createPortfolio}>
+          Create Portfolio
+        </button>
       </section>
       <section className="pb-5">
         <div className="row">
@@ -55,7 +94,7 @@ const Portfolios = ({ portfolios }) => {
 
 Portfolios.getInitialProps = async () => {
   const portfolios = await fetchPortfolios();
-  return { portfolios };
+  return { data: { portfolios } };
 }
 
 export default Portfolios;
