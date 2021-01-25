@@ -1,7 +1,7 @@
 const express = require('express')
 const next = require('next')
-const { graphqlHTTP } = require('express-graphql')
-const { buildSchema } = require('graphql')
+
+const { ApolloServer, gql } = require('apollo-server-express')
 
 const port = parseInt(process.env.PORT, 10) || 3333
 const dev = process.env.NODE_ENV !== 'production'
@@ -9,15 +9,15 @@ const app = next({ dev })
 const handle = app.getRequestHandler()
 
 // resolvers
-const { portfolioResolvers } = require('./graphql/resolvers')
-// types
+const { portfolioQueries, portfolioMutations } = require('./graphql/resolvers')
+// types, 
 const { portfolioTypes } = require('./graphql/types')
 
-  app.prepare().then(() => {
-    const server = express()
+app.prepare().then(() => {
+  const server = express()
 
-    // construct a schema using GraphQL shema language
-    const schema = buildSchema(`
+  // construct a schema using GraphQL shema language
+  const typeDefs = gql`
     ${portfolioTypes}
 
     type Query {
@@ -29,25 +29,28 @@ const { portfolioTypes } = require('./graphql/types')
     type Mutation{
       createPortfolio(input: PortfolioInput): Portfolio
     }
-  `)
+  `
 
-    // the root provide a resolver for each API endpoint
-    const root = {
-      ...portfolioResolvers
+  // the root provide a resolver for each API endpoint
+  const resolvers = {
+    Query: {
+      ...portfolioQueries
+    },
+    Mutation: {
+      ...portfolioMutations
     }
+  }
 
-    server.use('/graphql', graphqlHTTP({
-      schema,
-      rootValue: root,
-      graphiql: true
-    }))
+  const apolloServer = new ApolloServer({typeDefs,resolvers})
 
-    server.all('*', (req, res) => {
-      return handle(req, res)
-    })
+  apolloServer.applyMiddleware({ app: server })
 
-    server.listen(port, (err) => {
-      if (err) throw err
-      console.log(`> Ready on http://localhost:${port}`)
-    })
+  server.all('*', (req, res) => {
+    return handle(req, res)
   })
+
+  server.listen(port, (err) => {
+    if (err) throw err
+    console.log(`> Ready on http://localhost:${port}`)
+  })
+})
