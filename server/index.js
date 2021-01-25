@@ -25,6 +25,10 @@ const { portfolioTypes } = require('./graphql/types')
       portfolio(id: ID): Portfolio
       portfolios: [Portfolio]
     }
+
+    type Mutation{
+      createPortfolio(input: PortfolioInput): Portfolio
+    }
   `)
 
     // the root provide a resolver for each API endpoint
