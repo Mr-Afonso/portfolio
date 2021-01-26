@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
-import { useLazyQuery } from '@apollo/react-hooks';
-import { GET_PORTFOLIOS } from '@/apollo/queries'
+import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { GET_PORTFOLIOS, CREATE_PORTFOLIO } from '@/apollo/queries'
 import axios from 'axios'
 import PortfolioCard from '@/components/portfolios/PortfolioCard'
 import Link from 'next/link'
@@ -37,37 +37,11 @@ const graphUpdatePortfolio = (id) => {
     .then(data => data.updatePortfolio)
 }
 
-const graphCreatePortfolio = () => {
-  const query = `
-    mutation CreatePortfolio {
-      createPortfolio(input: {
-        title: "Just a Test"
-        company: "Just a Test"
-        companyWebsite: "Just a Test"
-        location: "Just a Test"
-        jobTitle: "Just a Test"
-        description: "Just a Test"
-        startDate: "12/12/2012"
-        endDate: "12/12/2012"
-      }) {
-        _id
-        title
-        description
-        jobTitle
-        startDate
-        endDate
-      }
-    }`
-
-  return axios.post('http://localhost:3333/graphql', { query: query })
-    .then(({ data: graph }) => graph.data)
-    .then(data => data.createPortfolio)
-}
-
 const Portfolios = () => {
 
   const [portfolios, setPortfolios] = useState([])
   const [getPortfolios, { loading, data }] = useLazyQuery(GET_PORTFOLIOS);
+  const [createPortfolio, { data: dataC }] = useMutation(CREATE_PORTFOLIO); 
 
   useEffect(() => {
     getPortfolios()
@@ -78,14 +52,6 @@ const Portfolios = () => {
   }
 
   if (loading) return 'Loading...';
-
-
-
-  const createPortfolio = async () => {
-    const newPortfolio = await graphCreatePortfolio()
-    const newPortfolios = [...portfolios, newPortfolio]
-    setPortfolios(newPortfolios)
-  }
 
   const updatePortfolio = async (id) => {
     const updatedPortfolio = await graphUpdatePortfolio(id)
