@@ -41,13 +41,28 @@ const Portfolios = () => {
 
   const [portfolios, setPortfolios] = useState([])
   const [getPortfolios, { loading, data }] = useLazyQuery(GET_PORTFOLIOS);
-  const [createPortfolio, { data: dataC }] = useMutation(CREATE_PORTFOLIO); 
+  const [createPortfolio] = useMutation(CREATE_PORTFOLIO, {
+    update(cache, { data: { createPortfolio } }) {
+      const { portfolios } = cache.readQuery({ query: GET_PORTFOLIOS })
+      cache.writeQuery({
+        query: GET_PORTFOLIOS,
+        data: {
+          portfolios: [...portfolios, createPortfolio]
+        }
+      })
+    }
+  });
+
+  // const onPortfolioCompleted = (dataC) => {
+  //   setPortfolios([...portfolios, dataC.createPortfolio])
+  // }
+  // const [createPortfolio] = useMutation(CREATE_PORTFOLIO, { onCompleted: onPortfolioCompleted });
 
   useEffect(() => {
     getPortfolios()
   }, [])
 
-  if (data && data.portfolios.length > 0 && portfolios.length === 0) {
+  if (data && data.portfolios.length > 0 && (portfolios.length === 0 || data.portfolios.length !== portfolios.length)) {
     setPortfolios(data.portfolios)
   }
 
