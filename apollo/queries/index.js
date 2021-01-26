@@ -46,10 +46,38 @@ export const CREATE_PORTFOLIO = gql`
       }) {
         _id
         title
+        company
         description
+        companyWebsite
+        location
         jobTitle
         startDate
         endDate
       }
     }
 `
+
+export const UPDATE_PORTFOLIO = gql`
+mutation UpdatePortfolio($id: ID) {
+  updatePortfolio(id: $id, input: {
+    title: "Job in Netcentric - test 333"
+    company: "Netcentric - test"
+    companyWebsite: "Just a Test"
+    location: "Just a Test"
+    jobTitle: "Just a Test"
+    description: "Just a Test"
+    startDate: "12/12/2012"
+    endDate: "12/12/2012"
+
+  }) {
+    _id
+    title
+    company
+    description
+    companyWebsite
+    location
+    jobTitle
+    startDate
+    endDate
+  }
+}`

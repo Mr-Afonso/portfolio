@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { GET_PORTFOLIOS, CREATE_PORTFOLIO } from '@/apollo/queries'
+import { GET_PORTFOLIOS, CREATE_PORTFOLIO, UPDATE_PORTFOLIO } from '@/apollo/queries'
 import axios from 'axios'
 import PortfolioCard from '@/components/portfolios/PortfolioCard'
 import Link from 'next/link'
@@ -17,31 +17,11 @@ const graphDeletePortfolio = (id) => {
     .then(data => data.deletePortfolio)
 }
 
-const graphUpdatePortfolio = (id) => {
-  const query = `
-    mutation UpdatePortfolio {
-      updatePortfolio(id: "${id}", input: {
-        title: "Job in Netcentric - test 333"
-          company: "Netcentric - test"
-    
-      }) {
-        title
-        description
-        jobTitle
-        startDate
-        endDate
-      }
-    }`
-
-  return axios.post('http://localhost:3333/graphql', { query: query })
-    .then(({ data: graph }) => graph.data)
-    .then(data => data.updatePortfolio)
-}
-
 const Portfolios = () => {
 
   const { data } = useQuery(GET_PORTFOLIOS);
-  
+  const [updatePortfolio] = useMutation(UPDATE_PORTFOLIO)
+
   const [createPortfolio] = useMutation(CREATE_PORTFOLIO, {
     update(cache, { data: { createPortfolio } }) {
       const { portfolios } = cache.readQuery({ query: GET_PORTFOLIOS })
@@ -53,10 +33,6 @@ const Portfolios = () => {
       })
     }
   });
-
-  const updatePortfolio = async (id) => {
-    await graphUpdatePortfolio(id)
-  }
 
   const deletePortfolio = async (id) => {
     await graphDeletePortfolio(id)
@@ -87,7 +63,7 @@ const Portfolios = () => {
                   <PortfolioCard portfolio={portfolio} />
                 </a>
               </Link>
-              <button className="btn btn-warning" onClick={() => updatePortfolio(portfolio._id)}>
+              <button className="btn btn-warning" onClick={() => updatePortfolio({variables: { id: portfolio._id }})}>
                 Update Portfolio
         </button>
               <button className="btn btn-danger" onClick={() => deletePortfolio(portfolio._id)}>
