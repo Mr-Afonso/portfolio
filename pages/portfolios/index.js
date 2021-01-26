@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react"
-import { useLazyQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { GET_PORTFOLIOS, CREATE_PORTFOLIO } from '@/apollo/queries'
 import axios from 'axios'
 import PortfolioCard from '@/components/portfolios/PortfolioCard'
@@ -41,8 +40,8 @@ const graphUpdatePortfolio = (id) => {
 
 const Portfolios = () => {
 
-  const [portfolios, setPortfolios] = useState([])
-  const [getPortfolios, { loading, data }] = useLazyQuery(GET_PORTFOLIOS);
+  const { data } = useQuery(GET_PORTFOLIOS);
+  
   const [createPortfolio] = useMutation(CREATE_PORTFOLIO, {
     update(cache, { data: { createPortfolio } }) {
       const { portfolios } = cache.readQuery({ query: GET_PORTFOLIOS })
@@ -55,36 +54,15 @@ const Portfolios = () => {
     }
   });
 
-  // const onPortfolioCompleted = (dataC) => {
-  //   setPortfolios([...portfolios, dataC.createPortfolio])
-  // }
-  // const [createPortfolio] = useMutation(CREATE_PORTFOLIO, { onCompleted: onPortfolioCompleted });
-
-  useEffect(() => {
-    getPortfolios()
-  }, [])
-
-  if (data && data.portfolios.length > 0 && (portfolios.length === 0 || data.portfolios.length !== portfolios.length)) {
-    setPortfolios(data.portfolios)
-  }
-
-  if (loading) return 'Loading...';
-
   const updatePortfolio = async (id) => {
-    const updatedPortfolio = await graphUpdatePortfolio(id)
-    const index = portfolios.findIndex(portfolio => portfolio._id === id)
-    const newPortfolios = portfolios.slice()
-    newPortfolios[index] = updatedPortfolio
-    setPortfolios(newPortfolios)
+    await graphUpdatePortfolio(id)
   }
 
   const deletePortfolio = async (id) => {
-    const deletedId = await graphDeletePortfolio(id)
-    const index = portfolios.findIndex(portfolio => portfolio._id === deletedId)
-    const newPortfolios = portfolios.slice()
-    newPortfolios.splice(index, 1)
-    setPortfolios(newPortfolios)
+    await graphDeletePortfolio(id)
   }
+
+  const portfolios = data && data.portfolios || []
 
   return (
     <>
