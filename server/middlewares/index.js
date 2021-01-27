@@ -1,4 +1,4 @@
-const config = require('./config/dev');
+const config = require('../config/dev');
 const session = require('express-session');
 
 exports.init = (server, db) => {
