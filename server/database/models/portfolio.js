@@ -10,6 +10,7 @@ const portfolioSchema = new Schema({
   description: { type: String, required: true },
   startDate: { type: Date, required: true },
   endDate: Date,
+  user: { type: Schema.Types.ObjectId, ref: 'User'},
   createAt: { type: Date, default: Date.now }
 })
 
