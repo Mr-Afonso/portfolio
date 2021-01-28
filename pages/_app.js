@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '@/styles/index.scss'
 
-import NavBar from '@/components/shared/NavBar'
+import Navbar from '@/components/shared/Navbar'
 import Hero from '@/components/shared/Hero'
 
 const MyApp = ({ Component, pageProps }) => {
@@ -11,7 +11,7 @@ const MyApp = ({ Component, pageProps }) => {
   return (
 
       <div className="portfolio-app">
-        <NavBar />
+        <Navbar />
         {isHomePage() && <Hero />}
         <div className="container">
           <Component {...pageProps} />
