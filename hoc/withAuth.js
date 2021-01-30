@@ -3,7 +3,7 @@ import { useGetUser } from '@/apollo/actions';
 import Redirect from '@/components/shared/Redirect';
 
 export default (WrappedComponent, role) => (props) => {
-  const { data: { user } = {}, loading, error } = useGetUser({fetchPolicy: 'network-only'});
+  const { data: { user } = {}, loading, error } = useGetUser({ fetchPolicy: 'network-only' });
 
   if (
     !loading &&
@@ -15,7 +15,7 @@ export default (WrappedComponent, role) => (props) => {
 
   // TODO: Send a message to login page
   if (user) {
-    if (role && user.role !== role) {
+    if (role && !role.includes(user.role)) {
       return <Redirect to="/login" />
     }
     return <WrappedComponent {...props} />
