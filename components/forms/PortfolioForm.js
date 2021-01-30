@@ -2,18 +2,18 @@ import { useForm } from 'react-hook-form';
 import DatePicker from "react-datepicker";
 import { useEffect, useState } from 'react';
 
-const PortfolioForm = ({onSubmit}) => {
+const PortfolioForm = ({ onSubmit }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const { handleSubmit, register, setValue } = useForm();
 
   useEffect(() => {
-    register({name: 'startDate'});
-    register({name: 'endDate'});
+    register({ name: 'startDate' });
+    register({ name: 'endDate' });
   }, [register])
 
   const handleDateChange = (dateType, setDate) => date => {
-    setValue(dateType, date.toISOString());
+    setValue(dateType, (date && new Date(date.setHours(0, 0, 0, 0)).toISOString()) || date);
     setDate(date);
   }
 
@@ -26,7 +26,7 @@ const PortfolioForm = ({onSubmit}) => {
           name="title"
           type="text"
           className="form-control"
-          id="title"/>
+          id="title" />
       </div>
 
       <div className="form-group">
@@ -36,7 +36,7 @@ const PortfolioForm = ({onSubmit}) => {
           name="company"
           type="text"
           className="form-control"
-          id="company"/>
+          id="company" />
       </div>
 
       <div className="form-group">
@@ -46,7 +46,7 @@ const PortfolioForm = ({onSubmit}) => {
           name="location"
           type="text"
           className="form-control"
-          id="location"/>
+          id="location" />
       </div>
 
       <div className="form-group">
@@ -56,7 +56,7 @@ const PortfolioForm = ({onSubmit}) => {
           name="jobTitle"
           type="text"
           className="form-control"
-          id="jobTitle"/>
+          id="jobTitle" />
       </div>
 
       <div className="form-group">
@@ -87,10 +87,30 @@ const PortfolioForm = ({onSubmit}) => {
         <div>
           <DatePicker
             showYearDropdown
+            disabled={!endDate}
             selected={endDate}
             onChange={handleDateChange('endDate', setEndDate)}
           />
         </div>
+      </div>
+
+      <div className="form-group">
+        {endDate &&
+          <button
+            type="button"
+            className="btn btn-danger"
+            onClick={() => handleDateChange('endDate', setEndDate)(null)}>
+            No End Date
+          </button>
+        }
+        {!endDate &&
+          <button
+            type="button"
+            className="btn btn-success"
+            onClick={() => handleDateChange('endDate', setEndDate)(new Date())}>
+            Set End Date
+          </button>
+        }
       </div>
 
       <button
