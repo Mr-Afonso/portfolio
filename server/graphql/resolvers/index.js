@@ -4,6 +4,9 @@ exports.portfolioQueries = {
   },
   portfolios: (root, args, ctx) => {
     return ctx.models.Portfolio.getAll()
+  },
+  userPortfolios: (root, args, ctx) => {
+    return ctx.models.Portfolio.getAllByUser();
   }
 }
 
@@ -29,8 +32,8 @@ exports.userQueries = {
 }
 
 exports.userMutations = {
-  signUp: async (root, {input}, ctx) => {
-    const registeredUser =  await ctx.models.User.signUp(input)
+  signUp: async (root, { input }, ctx) => {
+    const registeredUser = await ctx.models.User.signUp(input)
     return registeredUser._id
   },
   signIn: (root, { input }, ctx) => {
