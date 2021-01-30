@@ -6,6 +6,7 @@ class Portfolio {
     // this.model === Portfolio
     this.Model = model
     this.user = user;
+    this.writeRights = ['instructor', 'admin'];
   }
 
   getAll() {
