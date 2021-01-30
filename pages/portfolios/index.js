@@ -3,6 +3,7 @@ import PortfolioCard from '@/components/portfolios/PortfolioCard'
 import Link from 'next/link'
 import withApollo from '@/hoc/withApollo'
 import { getDataFromTree } from '@apollo/react-ssr';
+import BaseLayout from '@/layouts/BaseLayout';
 
 const Portfolios = () => {
 
@@ -11,7 +12,7 @@ const Portfolios = () => {
   const portfolios = data && data.portfolios || []
 
   return (
-    <>
+    <BaseLayout>
       <section className="section-title">
         <div className="px-2">
           <div className="pt-5 pb-4">
@@ -35,7 +36,7 @@ const Portfolios = () => {
           }
         </div>
       </section>
-    </>
+    </BaseLayout>
   )
 }
 
