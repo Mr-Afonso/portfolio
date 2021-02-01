@@ -65,4 +65,10 @@ exports.forumTypes = `
     user: Author
     createdAt: String
   }
+
+  input TopicInput {
+    title: String
+    content: String
+    forumCategory: String
+  }
 `
