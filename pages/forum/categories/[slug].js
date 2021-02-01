@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import BaseLayout from '@/layouts/BaseLayout';
 import { useGetTopicsByCategory, useGetUser } from '@/apollo/actions';
 import { useRouter } from 'next/router';
@@ -19,6 +20,11 @@ const useInitialData = () => {
 const Topics = () => {
   const [isReplierOpen, setReplierOpen] = useState(false);
   const { topicsByCategory, user } = useInitialData();
+
+  const createTopic = (topicData, done) => {
+    alert(JSON.stringify(topicData));
+    done();
+  }
 
   return (
     <BaseLayout>
@@ -57,7 +63,17 @@ const Topics = () => {
           </tbody>
         </table>
       </section>
-      <Replier isOpen={isReplierOpen} />
+      <Replier
+        isOpen={isReplierOpen}
+        onSubmit={createTopic}
+        onClose={() => setReplierOpen(false)}
+        closeBtn={() =>
+          <a
+            onClick={() => setReplierOpen(false)}
+            className="btn py-2 ttu gray-10">Cancel
+          </a>
+        }
+      />
     </BaseLayout>
   )
 }
