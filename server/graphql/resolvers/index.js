@@ -44,3 +44,9 @@ exports.userMutations = {
   }
 
 }
+
+exports.forumQueries = {
+  forumCategories: (root, args, ctx) => {
+    return ctx.models.ForumCategory.getAll();
+  }
+}
