@@ -8,6 +8,10 @@ class Topic {
     this.user = user;
   }
 
+  getBySlug(slug) {
+    return this.Model.findOne({ slug }).populate('user').populate('forumCategory');
+  }
+
   getAllByCategory(forumCategory) {
     return this.Model
       .find({ forumCategory })

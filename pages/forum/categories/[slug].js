@@ -14,12 +14,12 @@ const useInitialData = () => {
   const topicsByCategory = (dataT && dataT.topicsByCategory) || [];
   const user = (dataU && dataU.user) || null;
 
-  return { topicsByCategory, user, slug };
+  return {topicsByCategory, user, slug, router };
 }
 
 const Topics = () => {
   const [isReplierOpen, setReplierOpen] = useState(false);
-  const { topicsByCategory, user, slug } = useInitialData();
+  const { topicsByCategory, user, slug, router } = useInitialData();
   const [createTopic] = useCreateTopic();
 
   const handleCreateTopic = (topicData, done) => {
@@ -30,6 +30,8 @@ const Topics = () => {
         done();
       })
   }
+
+  const goToTopic = slug => router.push('/forum/topics/[slug]', `/forum/topics/${slug}`)
 
   return (
     <BaseLayout>
@@ -58,7 +60,7 @@ const Topics = () => {
           </thead>
           <tbody>
             {topicsByCategory.map(topic =>
-              <tr key={topic._id}>
+              <tr key={topic._id} onClick={() => goToTopic(topic.slug)}>
                 <th>{topic.title}</th>
                 <td className="category">{topic.forumCategory.title}</td>
                 <td>{topic.user.username}</td>

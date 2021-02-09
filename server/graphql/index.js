@@ -36,7 +36,8 @@ exports.createApolloServer = () => {
       deletePortfolio(id: ID): ID
 
       createTopic(input: TopicInput): Topic
-
+      topicBySlug(slug: String): Topic
+      
       signUp(input: SignUpInput): String
       signIn(input: SignInInput): User
       signOut: Boolean
