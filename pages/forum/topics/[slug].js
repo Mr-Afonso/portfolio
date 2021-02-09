@@ -14,6 +14,8 @@ const useInitialData = () => {
 }
 
 const Posts = () => {
+  const { topic } = useInitialData();
+  
   return (
     <BaseLayout>
       <section className="section-title">
