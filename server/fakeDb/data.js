@@ -26,7 +26,7 @@ const data = {
   users: [
     {
       _id: user1Id,
-      avatar: "https://f0.pngfuel.com/png/312/283/man-face-clip-art-png-clip-art-thumbnail.png",
+      avatar: "https://cdn1.iconfinder.com/data/icons/ninja-things-1/1772/ninja-simple-512.png",
       email: "filip99@gmail.com",
       name: "Filip Jerga",
       username: "Filip99",
@@ -36,8 +36,7 @@ const data = {
     },
     {
       _id: user2Id,
-      avatar: "https://f0.pngfuel.com/png/312/283/man-face-clip-art-png-clip-art-thumbnail.png",
-      email: "test@gmail.com",
+      avatar: "https://cdn.icon-icons.com/icons2/1736/PNG/512/4043260-avatar-male-man-portrait_113269.png",
       name: "Test User",
       username: "Test99",
       info: "Hello I am Test and I am a test!",
