@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon --watch server server/index.js -p 3333",
     "build": "next build",
-    "start": "next start -p 3333",
+    "start": "cross-env NODE_ENV=production node server/index.js -p 3333",
     "populateDb": "node server/fakeDb/populate.js"
   },
   "dependencies": {
