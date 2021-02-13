@@ -3,8 +3,8 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const config = require('../config');
 
-require('./models/portfolio')
-require('./models/user')
+require('./models/portfolio');
+require('./models/user');
 require('./models/forumCategory');
 require('./models/topic');
 require('./models/post');

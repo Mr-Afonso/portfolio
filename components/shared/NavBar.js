@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
-import Link from 'next/Link'
+import Link from 'next/link'
 import withApollo from '@/hoc/withApollo';
 import { useLazyGetUser } from '@/apollo/actions';
 
