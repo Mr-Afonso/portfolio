@@ -1,4 +1,4 @@
-import Navbar from '@/components/shared/Navbar';
+import AppNavbar from '../components/shared/AppNavbar';
 import Hero from '@/components/shared/Hero';
 import { ToastContainer } from 'react-toastify';
 
@@ -8,7 +8,7 @@ const BaseLayout = ({children, page = ''}) => {
 
   return (
     <div className="portfolio-app">
-      <Navbar />
+      <AppNavbar />
       { isHomePage() && <Hero /> }
       <div className="container mb-5">
         {children}
