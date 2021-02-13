@@ -1,12 +1,8 @@
 
+const BaseModel = require('./BaseModel');
 
 
-
-class ForumCategory {
-
-  constructor(model) {
-    this.Model = model;
-  }
+class ForumCategory extends BaseModel {
 
   getAll() {
     return this.Model.find({});
