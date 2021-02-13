@@ -1,37 +1,37 @@
+
 import { gql } from 'apollo-boost';
 
 export const GET_PORTFOLIO = gql`
-    query Portfolio($id: ID) {
-      portfolio(id: $id) {
-        _id
-        daysOfExperience @client
-        title
-        company
-        companyWebsite
-        location
-        jobTitle
-        description
-        startDate
-        endDate
-      }
+  query Portfolio($id: ID) {
+    portfolio (id: $id) {
+      _id
+      daysOfExperience @client
+      title
+      company
+      companyWebsite
+      location
+      jobTitle
+      description
+      startDate
+      endDate
     }
-`;
+  }
+`
 
 export const GET_PORTFOLIOS = gql`
   query Portfolios {
-        portfolios {
-          _id
-          title
-          company
-          companyWebsite
-          location
-          jobTitle
-          description
-          startDate
-          endDate
-        }
-      }
-`;
+    portfolios {
+      _id,
+      title,
+      company,
+      companyWebsite
+      location
+      jobTitle
+      description
+      startDate
+      endDate
+    }
+  }`;
 
 export const GET_USER_PORTFOLIOS = gql`
   query UserPortfolios {
@@ -46,38 +46,37 @@ export const GET_USER_PORTFOLIOS = gql`
 `;
 
 export const CREATE_PORTFOLIO = gql`
-    mutation CreatePortfolio(
-        $title: String
-        $company: String
-        $companyWebsite: String
-        $location: String
-        $jobTitle: String
-        $description: String
-        $startDate: String
-        $endDate: String
-      ) {
-        createPortfolio(input: {
-          title: $title
-        company: $company
-        companyWebsite: $companyWebsite
-        location: $location
-        jobTitle: $jobTitle
-        description: $description
-        startDate: $startDate
-        endDate: $endDate
-        }) {
-        _id
-        title
-        company
-        description
-        companyWebsite
-        location
-        jobTitle
-        startDate
-        endDate
-      }
+  mutation CreatePortfolio(
+    $title: String
+    $company: String
+    $companyWebsite: String
+    $location: String
+    $jobTitle: String
+    $description: String
+    $startDate: String
+    $endDate: String
+  ) {
+    createPortfolio(input: {
+      title: $title
+      company: $company
+      companyWebsite: $companyWebsite
+      location: $location
+      jobTitle: $jobTitle
+      description: $description
+      startDate: $startDate
+      endDate: $endDate
+    }) {
+      _id,
+      title,
+      company,
+      companyWebsite
+      location
+      jobTitle
+      description
+      startDate
+      endDate
     }
-`
+  }`;
 
 export const UPDATE_PORTFOLIO = gql`
   mutation UpdatePortfolio(
@@ -99,26 +98,29 @@ export const UPDATE_PORTFOLIO = gql`
       description: $description
       startDate: $startDate
       endDate: $endDate
-
-  }) {
-    _id
-    title
-    company
-    description
-    companyWebsite
-    location
-    jobTitle
-    startDate
-    endDate
-  }
-}`
+    }) {
+      _id,
+      title,
+      company,
+      companyWebsite
+      location
+      jobTitle
+      description
+      startDate
+      endDate
+    }
+  }`;
 
 export const DELETE_PORTFOLIO = gql`
-mutation DeletePortfolio($id: ID) {
-  deletePortfolio(id: $id)
-}`
+  mutation DeletePortfolio($id: ID) {
+    deletePortfolio(id: $id)
+  }
+`
+
+
 
 // AUTH QUERIES START ----------------------------
+
 export const SIGN_UP = gql`
   mutation SignUp(
     $avatar: String
@@ -165,6 +167,8 @@ export const GET_USER = gql`
     }
   }
 `
+
+
 // AUTH QUERIES END ----------------------------
 
 
@@ -180,6 +184,7 @@ export const FORUM_CATEGORIES = gql`
     }
   }
 `
+
 
 const topicResponse = `
   _id
@@ -273,5 +278,32 @@ export const CREATE_POST = gql`
     }
   }
 `
+
+export const GET_HIGHLIGHT = gql`
+  query Highlight($limit: Int) {
+    highlight(limit: $limit) {
+      topics {
+        _id
+        title
+        content
+        slug
+        user {
+          username
+          avatar
+        }
+        createdAt
+      }
+      portfolios {
+        _id
+        title
+        description
+        jobTitle
+        startDate
+        endDate
+      }
+    }
+  }
+`
+
 
 // FORUM QUERIES END ---------------------------
