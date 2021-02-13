@@ -248,9 +248,12 @@ const postResponse = `
 `
 
 export const POSTS_BY_TOPIC = gql`
-    query PostsByTopic($slug: String) {
-      postsByTopic(slug: $slug) {
-        ${postResponse}
+    query PostsByTopic($slug: String, $pageNum: Int, $pageSize: Int) {
+      postsByTopic(slug: $slug, pageNum: $pageNum, pageSize: $pageSize) {
+        posts {
+          ${postResponse}
+        }
+        count
       }
     }
 `
@@ -267,10 +270,6 @@ export const CREATE_POST = gql`
       parent: $parent
     }) {
       ${postResponse}
-      posts {
-          ${postResponse}
-        }
-        count
     }
   }
 `

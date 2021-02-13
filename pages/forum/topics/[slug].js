@@ -14,19 +14,20 @@ import Replier from '@/components/shared/Replier';
 import { toast } from 'react-toastify';
 import AppPagination from '@/components/shared/Pagination';
 
-const useInitialData = () => {
+const useInitialData = (pagination) => {
   const router = useRouter();
   const { slug } = router.query;
   const { data: dataT } = useGetTopicBySlug({ variables: { slug } });
-  const { data: dataP, fetchMore } = useGetPostsByTopic({ variables: { slug } });
+  const { data: dataP, fetchMore } = useGetPostsByTopic({ variables: { slug, ...pagination } });
   const { data: dataU } = useGetUser();
   const topic = (dataT && dataT.topicBySlug) || {};
-  const postData = (dataP && dataP.postsByTopic) || { posts: [] };
+  const postData = (dataP && dataP.postsByTopic) || { posts: [], count: 0 };
   const user = (dataU && dataU.user) || null;
   return { topic, ...postData, user, fetchMore };
 }
 const PostPage = () => {
-  const { topic, posts, ...rest } = useInitialData();
+  const [pagination, setPagination] = useState({ pageNum: 1, pageSize: 10 });
+  const { topic, posts, ...rest } = useInitialData(pagination);
   return (
     <BaseLayout>
       <section className="section-title">
@@ -40,12 +41,13 @@ const PostPage = () => {
         posts={posts}
         topic={topic}
         {...rest}
+        {...pagination}
       />
     </BaseLayout>
   )
 }
 
-const Posts = ({ posts, topic, user, fetchMore, count }) => {
+const Posts = ({ posts, topic, user, fetchMore, count, pageSize }) => {
   const pageEnd = useRef();
   const [createPost, { error }] = useCreatePost();
   const [isReplierOpen, setReplierOpen] = useState(false);
@@ -119,6 +121,7 @@ const Posts = ({ posts, topic, user, fetchMore, count }) => {
             }
             <div className="pagination-container ml-auto">
               <AppPagination
+                pageSize={pageSize}
                 count={count}
               />
             </div>
