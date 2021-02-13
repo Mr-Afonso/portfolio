@@ -4,7 +4,7 @@ const Cv = () =>
   <BaseLayout>
     <div className="row mt-4">
       <div className="col-md-8 offset-md-2">
-        <iframe src="/fake_cv.pdf" style={{ width: '100%', height: '800px' }}>
+        <iframe src="/miguel_afonso_2021.pdf" style={{ width: '100%', height: '800px' }}>
         </iframe>
       </div>
     </div>
