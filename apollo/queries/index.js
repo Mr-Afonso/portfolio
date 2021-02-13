@@ -267,6 +267,10 @@ export const CREATE_POST = gql`
       parent: $parent
     }) {
       ${postResponse}
+      posts {
+          ${postResponse}
+        }
+        count
     }
   }
 `
