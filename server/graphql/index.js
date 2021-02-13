@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { ApolloServer, gql } = require('apollo-server-express')
 
-const { portfolioQueries, portfolioMutations, userMutations,   userQueries,
+const { mixedQueries, portfolioQueries, portfolioMutations, userMutations,   userQueries,
   forumQueries, forumMutations } = require('./resolvers');
 const { portfolioTypes, userTypes, forumTypes } = require('./types');
 const { buildAuthContext } = require('./context');
@@ -25,13 +25,13 @@ exports.createApolloServer = () => {
       userPortfolios: [Portfolio]
 
       user: User
-
       forumCategories: [ForumCategory]
 
       topicsByCategory(category: String): [Topic]
       topicBySlug(slug: String): Topic
-
       postsByTopic(slug: String, pageNum: Int, pageSize: Int): PagPosts
+
+      highlight(limit: Int): HighlightRes
     }
 
     type Mutation{
