@@ -1,8 +1,8 @@
+import { fromNow } from '@/utils/functions';
 
 
 
-
-const PostItem = ({post, className = ''}) => {
+const PostItem = ({ post, onReply, className = '', canCreate = false }) => {
 
   const { parent } = post;
   return (
@@ -20,13 +20,17 @@ const PostItem = ({post, className = ''}) => {
             <div className="topic-header">
               <div className="topic-meta">
                 <div className="name-container">
-                    <span className="name">{post.user.username}</span>
+                  <span className="name">{post.user.username}</span>
                 </div>
-                <div className="date-container"><span className="date">{post.createdAt}</span></div>
+                {post.createdAt &&
+                  <div className="date-container">
+                    <span className="date">{fromNow(post.createdAt)}</span>
+                  </div>
+                }
               </div>
             </div>
             <div className="topic-content">
-              { parent &&
+              {parent &&
                 <div className="topic-parent cooked">
                   <div className="topic-parent-inner cooked">
                     <div className="topic-parent-header">
@@ -51,7 +55,12 @@ const PostItem = ({post, className = ''}) => {
               <section className="post-menu-area">
                 <nav className="post-controls">
                   <div className="actions">
-                    <button className="btn">reply</button>
+                    {onReply &&
+                      <button
+                        disabled={!canCreate}
+                        onClick={() => onReply({ ...post })}
+                        className="btn">reply</button>
+                    }
                   </div>
                 </nav>
               </section>
