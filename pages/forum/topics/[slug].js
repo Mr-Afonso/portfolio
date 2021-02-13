@@ -4,13 +4,15 @@ import {
   useGetTopicBySlug,
   useGetPostsByTopic,
   useGetUser,
-  useCreatePost } from '@/apollo/actions';
+  useCreatePost
+} from '@/apollo/actions';
 import { useRouter } from 'next/router';
 import withApollo from '@/hoc/withApollo';
 import { getDataFromTree } from '@apollo/react-ssr';
 import PostItem from '@/components/forum/PostItem';
 import Replier from '@/components/shared/Replier';
 import { toast } from 'react-toastify';
+import AppPagination from '@/components/shared/Pagination';
 
 const useInitialData = () => {
   const router = useRouter();
@@ -23,10 +25,8 @@ const useInitialData = () => {
   const user = (dataU && dataU.user) || null;
   return { topic, posts, user };
 }
-
 const PostPage = () => {
   const { topic, posts, user } = useInitialData();
-
   return (
     <BaseLayout>
       <section className="section-title">
@@ -47,7 +47,7 @@ const PostPage = () => {
 
 const Posts = ({ posts, topic, user }) => {
   const pageEnd = useRef();
-  const [ createPost, { error }] = useCreatePost();
+  const [createPost, { error }] = useCreatePost();
   const [isReplierOpen, setReplierOpen] = useState(false);
   const [replyTo, setReplyTo] = useState(null);
 
@@ -57,14 +57,15 @@ const Posts = ({ posts, topic, user }) => {
     }
 
     reply.topic = topic._id;
-    await createPost({variables: reply});
+    await createPost({ variables: reply });
     resetReplier();
     setReplierOpen(false);
-    toast.success('Post has been created!', {autoClose: 2000});
+    toast.success('Post has been created!', { autoClose: 2000 });
     scrollToBottom();
   }
 
-  const scrollToBottom = () => pageEnd.current.scrollIntoView({behavior: 'smooth'})
+  const scrollToBottom = () => pageEnd.current.scrollIntoView({ behavior: 'smooth' })
+
 
   return (
     <section className="mb-5">
@@ -105,9 +106,13 @@ const Posts = ({ posts, topic, user }) => {
                 </button>
               </div>
             }
+            <div className="pagination-container ml-auto">
+              <AppPagination />
+            </div>
           </div>
         </div>
       </div>
+      <div ref={pageEnd}></div>
       <Replier
         isOpen={isReplierOpen}
         hasTitle={false}
@@ -122,8 +127,6 @@ const Posts = ({ posts, topic, user }) => {
         }
       />
     </section>
-
   )
 }
-
-export default withApollo(PostPage, { getDataFromTree })
+export default withApollo(PostPage, { getDataFromTree });
